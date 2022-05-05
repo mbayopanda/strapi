@@ -12,6 +12,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 const fse = require('fs-extra');
 const _ = require('lodash');
+const mime = require('mime-types');
+
 const {
   sanitize,
   nameToSlug,
@@ -106,7 +108,7 @@ module.exports = ({ strapi }) => ({
     const currentFile = this.formatFileInfo(
       {
         filename: file.name,
-        type: file.type,
+        type: file.type || mime.lookup(file.name) || 'application/octet-stream',
         size: file.size,
       },
       fileInfo,
